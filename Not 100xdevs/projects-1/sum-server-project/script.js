@@ -1,3 +1,14 @@
+//debouncing
+// this is a generic debouncing function
+
+let timeout;
+function debounceCalculate() {
+	clearTimeout(timeout);
+	timeout = setTimeout(() => {
+		calculateInterest();
+	}, 1000);
+}
+
 async function calculateInterest() {
 	const principal = document.getElementById('principal').value;
 	const rate = document.getElementById('rate').value;
@@ -8,14 +19,4 @@ async function calculateInterest() {
 	const ans = await response.json();
 
 	document.getElementById('result').innerHTML = ans.interest;
-}
-
-//debouncing
-// this is a generic debouncing function
-let timeout;
-function debounceCalculate() {
-	clearTimeout(timeout);
-	timeout = setInterval(() => {
-		calculateInterest();
-	}, 1000);
 }

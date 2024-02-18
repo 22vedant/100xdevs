@@ -12,7 +12,7 @@
 			id="principal"
 			type="text"
 			placeholder="Enter Principal Amount"
-			oninput="calculateInterest()"
+			oninput="debounceCalculate()"
 		/>
 		<br />
 		<br />
@@ -21,7 +21,7 @@
 			id="rate"
 			type="text"
 			placeholder="Enter Rate"
-			oninput="calculateInterest()"
+			oninput="debounceCalculate()"
 		/>
 		<br />
 		<br />
@@ -30,12 +30,12 @@
 			id="time"
 			type="text"
 			placeholder="Enter Duration"
-			oninput="calculateInterest()"
+			oninput="debounceCalculate()"
 		/>
 		<br />
 		<br />
 
-		<button onclick="calculateInterest()">Submit</button>
+		<button onclick="debounceCalculate()">Submit</button>
 
 		<p id="result"></p>
 		<script src="script.js"></script>
