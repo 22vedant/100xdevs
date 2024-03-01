@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useState } from "react";
 
 // In this assignment, your task is to create a component that performs an expensive calculation (finding the factorial) based on a user input. 
@@ -6,17 +7,33 @@ import { useState } from "react";
 export function Assignment1() {
     const [input, setInput] = useState(0);
     // Your solution starts here
-    const expensiveValue = 0; 
+    let expensiveValue = 0;
     // Your solution ends here
+    const fact = (n) => {
+        if (n === 0) {
+            return expensiveValue = n
+        }
+        else {
+            let fact = 1;
+            for (let i = 1; i <= n; i++) {
+                fact *= i;
+            }
+            return expensiveValue = fact
+        }
+    }
+    const calculation = useMemo(() => {
+        console.log("inside for memoization");
+        return fact(input)
+    }, [input])
 
     return (
         <div>
-            <input 
-                type="number" 
-                value={input} 
-                onChange={(e) => setInput(Number(e.target.value))} 
+            <input
+                type="number"
+                value={input}
+                onChange={(e) => setInput(Number(e.target.value))}
             />
-            <p>Calculated Value: {expensiveValue}</p>
+            <p>Calculated Value: {calculation}</p>
         </div>
     );
 }
