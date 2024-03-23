@@ -46,9 +46,15 @@ const accountSchema = new mongoose.Schema({
 	},
 });
 
+const trialSchema = new mongoose.Schema({
+	name: String,
+});
+
 const User = mongoose.model('User', userSchema);
 const Accounts = mongoose.model('Accounts', accountSchema);
+const Trial = mongoose.model('Trial', trialSchema);
 module.exports = {
 	User,
 	Accounts,
+	Trial,
 };
