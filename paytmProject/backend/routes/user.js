@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const zod = require('zod');
 const SECRET = require('../config');
 const userAuth = require('../middlewares/userAuth');
+const newUserAuth = require('../middlewares/newUserAuth');
 
 const signupBody = zod.object({
 	username: zod.string().email(),
@@ -43,7 +44,7 @@ router.post('/signup', async (req, res) => {
 
 	await Accounts.create({
 		userId,
-		balance: Math.floor(Math.random() * 1000 + 1),
+		balance: Math.floor(Math.random() * 10000 + 1),
 	});
 
 	const token = jwt.sign({ userId }, SECRET);
@@ -164,6 +165,19 @@ router.get('/bulk', async (req, res) => {
 	// res.json({
 	// 	message: filter,
 	// });
+});
+
+router.post('/trial', newUserAuth, async (req, res) => {
+	const { success } = signInBody.safeParse(req.body);
+	if (!success) {
+		res.status(411).json({
+			message: 'Bad credentials',
+		});
+	}
+	res.status(411).json({
+		message: 'Error while logging in ',
+	});
+	return;
 });
 
 module.exports = router;

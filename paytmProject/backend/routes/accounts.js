@@ -1,7 +1,9 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const { default: mongoose } = require('mongoose');
 const zod = require('zod');
 const { Accounts, User } = require('../database/db');
+const newUserAuth = require('../middlewares/newUserAuth');
 
 const router = express.Router();
 
@@ -35,23 +37,83 @@ router.post('/transfer', async (req, res) => {
 			message: 'Incorrect inputs',
 		});
 	}
-	const existingUser = await User.findOne({
-		username: req.body.to,
+	const session = await mongoose.startSession();
+	session.startTransaction();
+
+	const { to, amount, sender } = req.body;
+
+	const Sender = await User.findOne({
+		username: sender,
 	});
-	if (existingUser) {
-		const account = await Accounts.findOne({
-			userId: existingUser._id,
-		});
-		const accountBalance = account.balance;
 
-		account.balance = account.balance + req.body.amount;
+	senderUserId = Sender._id;
+	const senderAcc = await Accounts.findOne({
+		userId: senderUserId,
+	});
+	let senderBalance = senderAcc.balance;
 
-		await account.save();
-
-		res.json({
-			newAmount: account.balance,
+	if (!senderAcc || senderBalance < amount) {
+		await session.abortTransaction();
+		return res.json({
+			message: 'Insufficient Balance',
 		});
 	}
+	const receiverAcc = await User.findOne({
+		username: req.body.to,
+	});
+	const receiverUserId = receiverAcc._id;
+	const toAccount = await Accounts.findOne({
+		userId: receiverUserId,
+	});
+	let receiverBalance = toAccount.balance;
+
+	if (!toAccount) {
+		await session.abortTransaction();
+		return res.json({
+			message: 'Invalid Account',
+		});
+	}
+
+	await Accounts.updateOne(
+		{
+			userId: senderUserId,
+		},
+		{
+			$inc: {
+				balance: -amount,
+			},
+		}
+	).session(session);
+
+	await Accounts.updateOne(
+		{
+			userId: receiverUserId,
+		},
+		{
+			$inc: {
+				balance: amount,
+			},
+		}
+	).session(session);
+
+	await session.commitTransaction();
+	res.json({
+		message: 'Transfer Successful',
+	});
+	session.endSession();
 });
 
 module.exports = router;
+
+// if (existingUser) {
+
+// 	const accountBalance = account.balance;
+
+// 	account.balance = account.balance + req.body.amount;
+
+// 	await account.save();
+
+// 	res.json({
+// 		newAmount: account.balance,
+// 	});
+// }
