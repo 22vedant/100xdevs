@@ -5,8 +5,8 @@ const SECRET = require('../config');
 const { User } = require('../database/db');
 
 const newUserAuth = async (req, res, next) => {
-	const authHeader = req.headers['authorization'];
-
+	const authHeader = localStorage.getItem(token);
+	// const authHeader = req.headers['authorization'];
 	if (typeof authHeader !== 'undefined') {
 		const bearer = authHeader.split(' ');
 		const token = bearer[1];
@@ -14,7 +14,7 @@ const newUserAuth = async (req, res, next) => {
 		const user = await User.findOne({
 			username: req.body.username,
 		});
-		console.log(user.password);
+		// console.log(user.password);
 		if (user) {
 			const userid = user._id;
 			const decoded = jwt.verify(token, SECRET);

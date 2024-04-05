@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
 	});
 	// console.log(accountDets);
 	const accountBalance = accountDets.balance;
-	console.log(accountDets.balance);
+	// console.log(accountDets.balance);
 	res.status(200).json({
 		balance: accountBalance,
 	});
