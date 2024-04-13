@@ -5,8 +5,8 @@ const SECRET = require('../config');
 const { User } = require('../database/db');
 
 const newUserAuth = async (req, res, next) => {
-	const authHeader = localStorage.getItem(token);
-	// const authHeader = req.headers['authorization'];
+	// const authHeader = localStorage.getItem(token);
+	const authHeader = req.headers['Authorization'];
 	if (typeof authHeader !== 'undefined') {
 		const bearer = authHeader.split(' ');
 		const token = bearer[1];

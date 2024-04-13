@@ -61,7 +61,7 @@ const signInBody = zod.object({
 	password: zod.string(),
 });
 
-router.post('/signin', newUserAuth, async (req, res) => {
+router.post('/signin', userAuth, async (req, res) => {
 	const token = req.token;
 
 	const { success } = signInBody.safeParse(req.body);
@@ -81,6 +81,7 @@ router.post('/signin', newUserAuth, async (req, res) => {
 		if (decoded.userId === userid.toString()) {
 			res.status(200).json({
 				message: 'Login Successful',
+				redirectUrl: '/dashboard',
 			});
 			return;
 		} else {

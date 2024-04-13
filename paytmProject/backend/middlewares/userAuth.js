@@ -5,7 +5,6 @@ const SECRET = require('../config');
 
 const userAuth = (req, res, next) => {
 	const authHeader = req.headers['authorization'];
-
 	if (typeof authHeader !== 'undefined') {
 		const bearer = authHeader.split(' ');
 		const token = bearer[1];
