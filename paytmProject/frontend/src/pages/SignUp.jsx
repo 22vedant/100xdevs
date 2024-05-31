@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { SubHeading, Heading, InputBox, Button, BottomWarning } from "../index"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 function SignUp() {
+    const navigate = useNavigate()
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [username, setUsername] = useState('')
@@ -36,6 +38,7 @@ function SignUp() {
                         })
                         console.log(response.data);
                         localStorage.setItem('token', "Bearer " + response.data.token)
+                        navigate("/dashboard")
                     }} label={"Sign Up"} />
                     <BottomWarning label={"Already have an account?"} spanText={'Sign In'} to={'/signin'} />
                 </div>

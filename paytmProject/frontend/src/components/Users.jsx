@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 
 export const Users = () => {
-    // Replace with backend call
+
     const [users, setUsers] = useState([])
     const [query, setQuery] = useState('')
     useEffect(() => {
@@ -54,7 +54,8 @@ function User({ user }) {
         </div>
         <div className="flex flex-col justify-center items-center">
             <button onClick={(e) => {
-                navigate(`/send?id=${user._id}&name=${user.firstName}`)
+                console.log(user._id);
+                navigate(`/send?id=${user._id}&firstName=${user.firstName}&lastName=${user.lastName}`)
                 // navigate("/send")
             }} className=" bg-blue-200  p-2 rounded-lg hover:shadow-lg hover:bg-blue-300">
                 Send Money

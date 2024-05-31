@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { SubHeading, Heading, InputBox, Button, BottomWarning } from "../index"
 const Signin = () => {
@@ -9,7 +9,7 @@ const Signin = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     // const splitArray = userTokenWithBearer.split(" ")
     // const userToken = splitArray[1]
-
+    const navigate = useNavigate()
     return (
         <div className='w-full min-h-screen flex flex-wrap justify-center items-center bg-blue-200 '>
             <div className='w-80 h-dvd  rounded-xl shadow-2xl bg-white'>
@@ -29,6 +29,8 @@ const Signin = () => {
                             {
                                 headers: { 'authorization': userToken },
                             })
+
+                        navigate("/dashboard")
 
                     }} label={"Sign In"} />
 
