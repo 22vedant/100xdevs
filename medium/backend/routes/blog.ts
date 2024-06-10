@@ -124,11 +124,18 @@ blogRouter.get('/posts', async (c) => {
 
 	return c.json(allblogs);
 });
-//redundant for now
-// blogRouter.get('/bulk', (c) => {
-// 	//return all blogs
-// 	return c.json({
-// 		msg: 'Bulk messages',
-// 	});
-// 	// return c.text('Hello Hono!');
-// });
+
+// redundant for now
+blogRouter.get('/bulk', async (c) => {
+	//return all blogs
+	// const userId = c.get('userId');
+
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	const allblogs = await prisma.post.findMany();
+
+	return c.json(allblogs);
+	// return c.text('Hello Hono!');
+});
