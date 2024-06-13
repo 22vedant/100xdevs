@@ -2,10 +2,14 @@ import { Hono } from 'hono';
 
 const app = new Hono();
 
-app.get('/', (c: any) => {
+app.get('/api/v1/user/details', (c: any) => {
 	return c.json({
-		ok: true,
-		message: 'This is written using hono',
+		name: "Vedant",
+		email: `vedantchinta223@gmail.com`,
+		address: {
+			city: "Pune",
+			state: "Maharashtra"
+		}
 	});
 });
 
